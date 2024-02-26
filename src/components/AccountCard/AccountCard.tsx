@@ -1,4 +1,3 @@
-import numeral from 'numeral';
 import React from 'react';
 import {View} from 'react-native';
 import styled from 'styled-components/native';
@@ -33,16 +32,15 @@ const Logo = styled.Image`
 
 interface AccountCardProps {
   accountName: string;
-  balance?: number;
 }
 
-export const AccountCard = ({accountName, balance = 0}: AccountCardProps) => {
+export const AccountCard = ({accountName}: AccountCardProps) => {
   return (
     <CardContainer>
       <Logo source={require('../../assets/png/logo.png')} />
       <View>
         <AccountName>{accountName}</AccountName>
-        <Balance>{numeral(balance).format('$0,00.00')}</Balance>
+        <Balance>$0.00</Balance>
       </View>
     </CardContainer>
   );

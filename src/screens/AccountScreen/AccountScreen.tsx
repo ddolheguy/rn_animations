@@ -1,17 +1,33 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import {ScreenContent} from '../../components/ScreenContent/ScreenContent';
+import {
+  Balance,
+  BalanceLarge,
+  ContentContainer,
+  Percentage,
+  PercentageContainer,
+  Title,
+} from './styles';
+import {Header} from './components/Header';
 
-const Title = styled.Text`
-  font-family: ${({theme}) => theme.fonts.bold};
-  color: black;
-  font-size: 20px;
-`;
+interface AccountScreenProps {
+  goBack: () => void;
+}
 
-export const AccountScreen = () => {
+export const AccountScreen = ({goBack}: AccountScreenProps) => {
   return (
-    <ScreenContent>
-      <Title>Give your account a name</Title>
+    <ScreenContent header={<Header goBack={goBack} />}>
+      <ContentContainer>
+        <Title>Total balance</Title>
+
+        <BalanceLarge>
+          $0<Balance>.00</Balance>
+        </BalanceLarge>
+
+        <PercentageContainer>
+          <Percentage>0%</Percentage>
+        </PercentageContainer>
+      </ContentContainer>
     </ScreenContent>
   );
 };

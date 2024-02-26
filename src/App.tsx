@@ -1,24 +1,30 @@
 import React, {useState} from 'react';
-import numeral from 'numeral';
-import 'numeral/locales/en-gb';
-import {ThemeProvider} from 'styled-components/native';
+import styled, {ThemeProvider} from 'styled-components/native';
 import {theme} from './theme';
 import {AccountScreen} from './screens/AccountScreen/AccountScreen';
 import {HomeScreen} from './screens/HomeScreen/HomeScreen';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {ActiveAccountProvider} from './context/ActiveAccountContext';
 
-numeral.locale('en-gb');
+const Background = styled.View`
+  background-color: ${props => props.theme.colors.background};
+  flex: 1;
+`;
 
 export const App = () => {
   const [canAddAccount, setCanAddAccount] = useState(true);
   return (
     <ThemeProvider theme={theme}>
-      <SafeAreaProvider>
-        <AccountScreen />
-        {canAddAccount ? (
-          <HomeScreen onComplete={() => setCanAddAccount(false)} />
-        ) : null}
-      </SafeAreaProvider>
+      <ActiveAccountProvider>
+        <Background>
+          <SafeAreaProvider>
+            <AccountScreen goBack={() => setCanAddAccount(true)} />
+            {canAddAccount ? (
+              <HomeScreen onComplete={() => setCanAddAccount(false)} />
+            ) : null}
+          </SafeAreaProvider>
+        </Background>
+      </ActiveAccountProvider>
     </ThemeProvider>
   );
 };

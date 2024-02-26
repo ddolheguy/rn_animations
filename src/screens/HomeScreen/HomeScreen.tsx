@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {AccountCard} from '../../components/AccountCard/AccountCard';
 import {Button} from '../../components/Button/Button';
 import Animated, {
@@ -18,6 +18,8 @@ import {
   Title,
 } from './styles';
 import {Header} from './components/Header';
+import {ActiveAccountContext} from '../../context/ActiveAccountContext';
+import {cardExiting, textExiting} from './HomeScreen.utils';
 
 interface HomeScreenProps {
   onComplete: () => void;
@@ -34,36 +36,13 @@ const messages = {
 
 export const HomeScreen = ({onComplete}: HomeScreenProps) => {
   const [accountCreated, setAccountCreated] = useState(false);
+  const {setAccountName: setActiveAccount} = useContext(ActiveAccountContext);
 
   const offset = useSharedValue('0deg');
   const [accountName, setAccountName] = useState('');
 
-  const cardExiting = (values: {currentOriginY: number}) => {
-    'worklet';
-    const animations = {
-      originY: withTiming(-200, {duration: 3000}),
-      opacity: withTiming(0, {duration: 3000}),
-      transform: [
-        {
-          scale: withTiming(0, {duration: 2000}),
-        },
-        {
-          rotateX: withRepeat(withTiming('180deg', {duration: 500}), 4, true),
-        },
-      ],
-    };
-    const initialValues = {
-      originY: values.currentOriginY,
-      opacity: 1,
-      transform: [{scale: 1}, {rotateX: '5deg'}],
-    };
-    return {
-      initialValues,
-      animations,
-    };
-  };
-
   const handlePress = () => {
+    setActiveAccount(accountName);
     setAccountCreated(true);
 
     offset.value = withSequence(
@@ -103,12 +82,14 @@ export const HomeScreen = ({onComplete}: HomeScreenProps) => {
             <AccountCard accountName={accountName} />
           </Animated.View>
         </CardContainer>
-        <Title>
-          {accountCreated ? messages.accountCreatedTitle : messages.title}
-        </Title>
-        <Comment>
-          {accountCreated ? messages.accountCreatedComment : messages.comment}
-        </Comment>
+        <Animated.View exiting={textExiting}>
+          <Title>
+            {accountCreated ? messages.accountCreatedTitle : messages.title}
+          </Title>
+          <Comment>
+            {accountCreated ? messages.accountCreatedComment : messages.comment}
+          </Comment>
+        </Animated.View>
 
         {!accountCreated ? (
           <StyledTextInput
