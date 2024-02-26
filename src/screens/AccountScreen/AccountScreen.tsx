@@ -1,11 +1,17 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import styled from 'styled-components/native';
+import {ScreenContent} from '../../components/ScreenContent/ScreenContent';
+
+const Title = styled.Text`
+  font-family: ${({theme}) => theme.fonts.bold};
+  color: black;
+  font-size: 20px;
+`;
 
 export const AccountScreen = () => {
   return (
-    <SafeAreaView>
-      <Text>HELLO ACCOUNT</Text>
-    </SafeAreaView>
+    <ScreenContent>
+      <Title>Give your account a name</Title>
+    </ScreenContent>
   );
 };
