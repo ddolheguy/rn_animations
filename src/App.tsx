@@ -18,6 +18,11 @@ export const App = () => {
       <ActiveAccountProvider>
         <Background>
           <SafeAreaProvider>
+            {/* NOTE:  I prefer using React Native Navigation but since the animation needed to span screens is isn't easily possible in the time for this test.
+              Reanimated has a new beta feature called sharedTransitionTag and sharedTransitionStyle which I had a quick play around with but wasm't able to get this
+              working without spending a lot of time digging into why / how it works.
+             */}
+
             <AccountScreen goBack={() => setCanAddAccount(true)} />
             {canAddAccount ? (
               <HomeScreen onComplete={() => setCanAddAccount(false)} />
